@@ -1,0 +1,50 @@
+﻿USE [BDAcademico]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Materia](
+	[IdMateria] [int] NOT NULL,
+	[sigla] [varchar](500) NOT NULL,
+	[nombre] [varchar](500) NOT NULL,
+ CONSTRAINT [PK_Materia] PRIMARY KEY CLUSTERED 
+(
+	[IdMateria] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Estudiante](
+	[IdEstudiante] [int] IDENTITY(1,1) NOT NULL,
+	[CI] [int] NOT NULL,
+	[FechaNacimiento] [datetime] NOT NULL,
+	[Nombres] [varchar](500) NOT NULL,
+	[Apellidos] [varchar](500) NULL,
+ CONSTRAINT [PK_Estudiante] PRIMARY KEY CLUSTERED 
+(
+	[IdEstudiante] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Inscripcion]    Script Date: 26/04/2020 6:58:12 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Inscripcion](
+	[IdInscripcion] [int] IDENTITY(1,1) NOT NULL,
+	[IdMateria] [int] NOT NULL,
+	[IdMateria] [int] NOT NULL,
+	[Descripcion] [varchar](1000) NOT NULL,
+	
+ CONSTRAINT [PK_Inscripcion] PRIMARY KEY CLUSTERED 
+(
+	[IdInscripcion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
