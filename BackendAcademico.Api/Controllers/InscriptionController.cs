@@ -10,24 +10,21 @@ namespace BackendAcademico.Api.Controllers
     [ApiController]
     public class InscriptionController : Controller
     {
+        private readonly IInscripcionRepository _inscriptionRepository; 
         
-        private readonly IInscripcionService _servicio;
-        private IInscripcionService servicio;
-
-        public InscriptionController(IInscripcionService _servicio)
+        public InscriptionController(IInscripcionRepository inscripcionRepository)
         {
-            _servicio = servicio;
-        }
+            _inscriptionRepository = inscripcionRepository; 
+        } 
+
 
         [HttpGet]
-        public async Task<ActionResult<List<InscripcionDTO>>> Listar()
+        public async Task<IActionResult> GetInscripcions()
         {
-            var retorno = await _servicio.Listar();
+            var inscripcions = await _inscriptionRepository.GetInscripcions();
+            return Ok(inscripcions);
 
-            if (retorno.Objeto != null)
-                return retorno.Objeto.Select(Mapper.ToDTO).ToList();
-            else
-                return StatusCode(retorno.Status, retorno.Error);
+       
         }
 
         [HttpGet("{idinscripcion}")]

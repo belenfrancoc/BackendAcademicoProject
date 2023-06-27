@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BackendAcademico.Core.Data;
+namespace BackendAcademico.Core.Entities;
 
-public class Estudiante
+public partial class Estudiante
 {
+    public Estudiante() 
+    {
+        Inscripcions = new HashSet<Inscripcion>();    
+    } 
+
     public decimal Idestudiante { get; set; }
 
     public decimal Ci { get; set; }

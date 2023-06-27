@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BackendAcademico.Core.Data;
+namespace BackendAcademico.Core.Entities;
 
 public class Inscripcion
 {
@@ -11,9 +11,7 @@ public class Inscripcion
 
     public decimal Idestudiante { get; set; }
 
-    public string Descripcion { get; set; } = null!;
-
-    public virtual Estudiante IdestudianteNavigation { get; set; } = null!;
-
-    public virtual Materium IdmateriaNavigation { get; set; } = null!;
+    public string Descripcion { get; set; }
+    public object IdestudianteNavigation { get; set; }
+    public object IdmateriaNavigation { get; set; }
 }

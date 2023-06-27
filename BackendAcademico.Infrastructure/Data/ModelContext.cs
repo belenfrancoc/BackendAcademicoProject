@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BackendAcademico.Core.Data;
+using BackendAcademico.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendAcademico.Infrastructure.Data;
@@ -18,7 +18,7 @@ public partial class ModelContext : DbContext
 
     public virtual DbSet<Estudiante> Estudiantes { get; set; }
 
-    public virtual DbSet<Inscripcion> Inscripcions { get; set; }
+    public virtual DbSet<Inscripcion> Inscripcion { get; set; }
 
     public virtual DbSet<Materium> Materia { get; set; }
 
@@ -109,10 +109,8 @@ public partial class ModelContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("SIGLA");
         });
-        modelBuilder.HasSequence("MATERIA_SEQ");
-
-        OnModelCreatingPartial(modelBuilder);
+       
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+   
 }

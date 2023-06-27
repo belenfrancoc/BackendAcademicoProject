@@ -1,4 +1,4 @@
-﻿using BackendAcademico.Core.Data;
+﻿using BackendAcademico.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,5 @@ namespace BackendAcademico.Core.Interfaces
 {
     public class IInscripcionRepository
     {
-        
-
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BackendAcademico.Core.Data;
+namespace BackendAcademico.Core.Entities;
 
 public class Materium
 {

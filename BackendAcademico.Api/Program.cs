@@ -1,6 +1,7 @@
 using BackendAcademico.Core.Interfaces;
 using BackendAcademico.Core.Services;
 using BackendAcademico.Infrastructure.Data;
+using BackendAcademico.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,7 @@ builder.Services.AddDbContext<ModelContext>(x =>
     )
 );
 
-builder.Services.AddTransient<IInscripcionService, InscripcionService>();
+builder.Services.AddTransient<IInscripcionRepository, InscripcionRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
