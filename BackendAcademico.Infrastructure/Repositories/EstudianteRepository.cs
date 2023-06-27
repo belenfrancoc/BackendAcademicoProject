@@ -1,28 +1,50 @@
 ﻿using BackendAcademico.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BackendAcademico.Core.Interfaces;
+using BackendAcademico.Infrastructure.Data;
+using Dapper;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace BackendAcademico.Infrastructure.Repositories
 {
-    public class EstudianteRepository : IEstudiante
+    public class EstudianteRepository : IEstudianteRepository
     {
-        public IEnumerable<Estudiante> GetEstudiantes()
+        private readonly ModelContext _context;
+        private readonly IDbConnection _connection;
+        public EstudianteRepository(ModelContext context)
         {
-            var estudiantes = Enumerable.Range(1, 10).Select(x => new Estudiante
-            {
-                IdEstudiante = x,
-                CiEstudiante = x,
-                NombreEstudiante = $"Nombre {x}",
-                ApellidoEstudiante = $"Apellido {x}",
-                Fecha = DateTime.Now
-            });
-            return estudiantes;
-
+            _context = context;
         }
-         
+     
+        public EstudianteRepository(IDbConnection connection)
+        {
+            _connection = connection;
+        }
+
+        public async Task<IEnumerable<Estudiante>> GetEstudiantes()
+        {
+            var estudiantes = await _connection.QueryAsync<Estudiante>("ObtenerEstudiantes", commandType: CommandType.StoredProcedure);
+            return estudiantes;
+        }
+        /* anterior metodo antes de implementar dapper
+        public async Task<IEnumerable<Estudiante>> GetEstudiantes()
+        {
+            var estudiantes = await _context.Estudiantes.ToListAsync();
+            return estudiantes;
+        }
+        */
+        public async Task<Estudiante> GetEstudiante(decimal id)
+        {
+            var estudiante = await _context.Estudiantes.FirstOrDefaultAsync(x => x.Idestudiante == id);
+            return estudiante;
+        }
+
+        public async Task InsertEstudiante(Estudiante estudiante)
+        {
+            _context.Estudiantes.Add(estudiante);
+            await _context.SaveChangesAsync();
+        }
+
     }
 
 }

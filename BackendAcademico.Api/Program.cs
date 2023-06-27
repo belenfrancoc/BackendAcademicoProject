@@ -1,14 +1,18 @@
 using BackendAcademico.Core.Interfaces;
-using BackendAcademico.Core.Services;
 using BackendAcademico.Infrastructure.Data;
 using BackendAcademico.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Dapper;
+using Oracle.ManagedDataAccess.Client;
+using System.Data;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 var cadenaConexion = builder.Configuration.GetConnectionString("defaultConnection");
+
+builder.Services.AddScoped<IDbConnection>(provider => new OracleConnection(cadenaConexion));
 
 builder.Services.AddDbContext<ModelContext>(x =>
     x.UseOracle(
@@ -18,6 +22,7 @@ builder.Services.AddDbContext<ModelContext>(x =>
 );
 
 builder.Services.AddTransient<IInscripcionRepository, InscripcionRepository>();
+builder.Services.AddTransient<IEstudianteRepository, EstudianteRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

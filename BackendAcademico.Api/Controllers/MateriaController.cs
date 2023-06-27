@@ -1,76 +1,40 @@
-﻿using BackendAcademico.Core.DTOs;
+﻿using BackendAcademico.Core.Entities;
 using BackendAcademico.Core.Interfaces;
-using BackendAcademico.Infrastructure.Data;
-using BackendAcademico.Infrastructure.Mappings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendAcademico.Api.Controllers
 {
-    [Route("api /[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class MateriaController : Controller
+    public class MateriaController : ControllerBase
     {
-        private readonly IInscripcionService _servicio;
-        private IInscripcionService servicio;
+        private readonly IMateriaRepository _materiaRepository;
 
-        public MateriaController(IMateriaService _servicio)
+        public MateriaController(IMateriaRepository materiaRepository)
         {
-            _servicio = (IMateriaService)servicio;
+            _materiaRepository = materiaRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<MateriaDTO>>> Listar(Core.Services.RespuestaService<List<Core.Data.Inscripcion>> retorno)
+        public async Task<IActionResult> GetMaterias()
         {
-            var retorno = await _servicio.Listar();
-
-            if (retorno.Objeto != null)
-                return retorno.Objeto.Select(Mapper.ToDTO).ToList();
-            else
-                return StatusCode(retorno.Status, retorno.Error);
+            var materias = await _materiaRepository.GetMaterias();
+            return Ok(materias);
         }
 
-        [HttpGet("{idmateria}")]
-        public async Task<ActionResult<MateriaDTO>> BuscarPorId(decimal idmateria)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetMateria(decimal id)
         {
-            var retorno = await _servicio.BuscarPorId(idmateria);
-
-            if (retorno.Objeto != null)
-                return retorno.Objeto.ToDTO();
-            else
-                return StatusCode(retorno.Status, retorno.Error);
+            var materia = await _materiaRepository.GetMateria(id);
+            return Ok(materia);
         }
 
         [HttpPost]
-        public async Task<ActionResult<MateriaDTO>> Guardar(MateriaDTO c)
+        public async Task<IActionResult> PostMateria(Materium materia)
         {
-            var retorno = await _servicio.Guardar(c.ToDatabase());
-
-            if (retorno.Objeto != null)
-                return retorno.Objeto.ToDTO();
-            else
-                return StatusCode(retorno.Status, retorno.Error);
-        }
-
-        [HttpPut]
-        public async Task<ActionResult<MateriaDTO>> Actualizar(MateriaDTO c)
-        {
-            var retorno = await _servicio.Actualizar(c.ToDatabase());
-            if (retorno.Objeto != null)
-                return retorno.Objeto.ToDTO();
-            else
-                return StatusCode(retorno.Status, retorno.Error);
-        }
-
-        [HttpDelete("{idmateria}")]
-        public async Task<ActionResult<bool>> Eliminar(decimal idmateria)
-        {
-            var retorno = await _servicio.Eliminar(idmateria);
-
-            if (retorno.Exito)
-                return true;
-            else
-                return StatusCode(retorno.Status, retorno.Error);
+            await _materiaRepository.InsertMateria(materia);
+            return Ok(materia);
         }
     }
-}
+
 }

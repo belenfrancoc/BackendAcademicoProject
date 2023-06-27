@@ -21,4 +21,6 @@ public partial class Estudiante
     public string? Apellidos { get; set; }
 
     public virtual ICollection<Inscripcion> Inscripcions { get; set; } = new List<Inscripcion>();
+
+    
 }

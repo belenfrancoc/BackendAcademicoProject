@@ -1,13 +1,13 @@
 ﻿using BackendAcademico.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BackendAcademico.Core.Interfaces
 {
-    public class IInscripcionRepository
+    public interface IInscripcionRepository
     {
+        Task<IEnumerable<Inscripcion>> GetInscripcions();
+
+        Task<Inscripcion> GetInscripcion(decimal id);
+
+        Task InsertInscripcion(Inscripcion inscripcion);
     }
 }

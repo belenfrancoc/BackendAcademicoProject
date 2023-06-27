@@ -15,11 +15,22 @@ namespace BackendAcademico.Infrastructure.Repositories
         }
         public async Task<IEnumerable<Inscripcion>> GetInscripcions()
         {
-            var inscripcions = await _context.Inscripcion.ToListAsync();
+            var inscripcions = await _context.Inscripcions.ToListAsync();
             return inscripcions;
-  
-
         }
+
+        public async Task<Inscripcion> GetInscripcion(decimal id)
+        {
+            var inscripcion = await _context.Inscripcions.FirstOrDefaultAsync(x=> x.Idinscripcion == id);
+            return inscripcion;
+        }
+        public async Task InsertInscripcion(Inscripcion inscripcion)
+        {
+            _context.Inscripcions.Add(inscripcion);
+            await _context.SaveChangesAsync();
+        }
+
+
     }
     
        

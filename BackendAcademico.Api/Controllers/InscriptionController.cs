@@ -1,8 +1,7 @@
-﻿using BackendAcademico.Core.DTOs;
+﻿using BackendAcademico.Core.Entities;
 using BackendAcademico.Core.Interfaces;
-using BackendAcademico.Infrastructure.Data;
-using BackendAcademico.Infrastructure.Mappings;
 using Microsoft.AspNetCore.Mvc;
+using Dapper;
 
 namespace BackendAcademico.Api.Controllers
 {
@@ -10,64 +9,37 @@ namespace BackendAcademico.Api.Controllers
     [ApiController]
     public class InscriptionController : Controller
     {
-        private readonly IInscripcionRepository _inscriptionRepository; 
+        private readonly IInscripcionRepository _inscripcionRepository; 
         
         public InscriptionController(IInscripcionRepository inscripcionRepository)
         {
-            _inscriptionRepository = inscripcionRepository; 
-        } 
-
+            _inscripcionRepository = inscripcionRepository; 
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetInscripcions()
         {
-            var inscripcions = await _inscriptionRepository.GetInscripcions();
+            var inscripcions = await _inscripcionRepository.GetInscripcions();
             return Ok(inscripcions);
-
-       
         }
 
-        [HttpGet("{idinscripcion}")]
-        public async Task<ActionResult<InscripcionDTO>> BuscarPorId(decimal idinscripcion)
+        
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetInscripcion(decimal id)
         {
-            var retorno = await _servicio.BuscarPorId(idinscripcion);
+            var inscripcion = await _inscripcionRepository.GetInscripcion(id);
 
-            if (retorno.Objeto != null)
-                return retorno.Objeto.ToDTO();
-            else
-                return StatusCode(retorno.Status, retorno.Error);
+            return Ok(inscripcion);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<InscripcionDTO>> Guardar(InscripcionDTO c)
-        {
-            var retorno = await _servicio.Guardar(c.ToDatabase());
+       [HttpPost]
+         public async Task<IActionResult> Post(Inscripcion inscripcion)
+         {
+            await _inscripcionRepository.InsertInscripcion(inscripcion);
 
-            if (retorno.Objeto != null)
-                return retorno.Objeto.ToDTO();
-            else
-                return StatusCode(retorno.Status, retorno.Error);
+            return Ok(inscripcion);
         }
-
-        [HttpPut]
-        public async Task<ActionResult<InscripcionDTO>> Actualizar(InscripcionDTO c)
-        {
-            var retorno = await _servicio.Actualizar(c.ToDatabase());
-            if (retorno.Objeto != null)
-                return retorno.Objeto.ToDTO();
-            else
-                return StatusCode(retorno.Status, retorno.Error);
-        }
-
-        [HttpDelete("{idinscripcion}")]
-        public async Task<ActionResult<bool>> Eliminar(decimal idinscripcion)
-        {
-            var retorno = await _servicio.Eliminar(idinscripcion);
-
-            if (retorno.Exito)
-                return true;
-            else
-                return StatusCode(retorno.Status, retorno.Error);
-        } 
+        
+         
     }
 }
